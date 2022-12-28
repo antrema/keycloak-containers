@@ -19,6 +19,13 @@ USER root
 
 RUN microdnf update -y && microdnf install -y glibc-langpack-en gzip hostname java-11-openjdk-headless openssl tar which && microdnf clean all
 
+COPY antrema-caemail.crt /usr/share/pki/ca-trust-source/anchors/antrema-caemail.crt 
+COPY antrema-caopenvpn.crt /usr/share/pki/ca-trust-source/anchors/antrema-caopenvpn.crt 
+COPY antrema-caroot.crt /usr/share/pki/ca-trust-source/anchors/antrema-caroot.crt 
+COPY antrema-cassl.crt /usr/share/pki/ca-trust-source/anchors/antrema-cassl.crt 
+
+RUN update-ca-trust
+
 ADD tools /opt/jboss/tools
 RUN /opt/jboss/tools/build-keycloak.sh
 
